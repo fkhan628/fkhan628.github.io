@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fkhan628.github.io</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f4f0f8;
+    color: #2a3e5c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+  }
+  .box {
+    max-width: 420px;
+    background: #fff;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(30, 50, 80, 0.08);
+    border: 1px solid #d0dce8;
+  }
+  h1 {
+    font-size: 18px;
+    margin: 0 0 12px;
+    color: #1a6fa8;
+  }
+  p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 16px;
+    color: #5a6a78;
+  }
+  a {
+    color: #1a6fa8;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<script>
+  // This page handles two cases:
+  //
+  // 1. Supabase auth redirects (password reset, etc.) landing on the bare
+  //    origin when they should be going to /Call-Schedule-App/. Supabase's
+  //    GoTrue service strips our redirect_to path and uses the Site URL
+  //    origin only. We forward those here, preserving the URL hash that
+  //    carries the recovery access_token.
+  //
+  // 2. Normal visits — show a static landing page directing people to the
+  //    actual app.
+  (function() {
+    var hash = window.location.hash || "";
+    var search = window.location.search || "";
+    // Detect Supabase auth params in either the hash (access_token, type)
+    // or the query string (error, error_code).
+    var hasAuthParams = (
+      hash.indexOf("access_token") !== -1 ||
+      hash.indexOf("type=recovery") !== -1 ||
+      hash.indexOf("type=signup") !== -1 ||
+      hash.indexOf("type=magiclink") !== -1 ||
+      hash.indexOf("type=invite") !== -1 ||
+      search.indexOf("error_code") !== -1 ||
+      search.indexOf("error=access_denied") !== -1
+    );
+    if (hasAuthParams) {
+      // Preserve both search and hash when forwarding to the app.
+      window.location.replace(
+        "https://fkhan628.github.io/Call-Schedule-App/" + search + hash
+      );
+    }
+  })();
+</script>
+<div class="box">
+  <h1>DSG Call Schedule</h1>
+  <p>This is a supporting page for the Davenport Surgical Group call schedule app.</p>
+  <p><a href="https://fkhan628.github.io/Call-Schedule-App/">Open the app →</a></p>
+</div>
+</body>
+</html>
